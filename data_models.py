@@ -69,3 +69,11 @@ def filter_adzuna_ad(ad: dict) -> dict:
 def model_adzuna_ad_data(ads: List[dict]) -> List[AdzunaAd]:
     """Map filter_adzuna_job to the list of dict inputs."""
     return [AdzunaAd(**filter_adzuna_ad(ad)) for ad in ads]
+
+
+def is_internship(ad: AdzunaAd) -> bool:
+    """Tests if an ad is an internship one"""
+    return ("alternance" in ad['title'] or
+            "Alternance" in ad['title'] or
+            "stage" in ad['title'] or
+            "Stage" in ad['title'])
