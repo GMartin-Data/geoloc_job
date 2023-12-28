@@ -13,11 +13,13 @@ conf = configure()
 cli = create_client(conf['ua'])
 
 # User inputs
-location = st.text_input("Where?")
-radius = st.slider("Up to how many kilometers?", min_value=1, max_value=100)
+with st.sidebar:
+    location = st.text_input("Where?")
+    radius = st.slider("Up to how many kilometers?", min_value=1, max_value=100)
+    search_button = st.button("Search Job Ads")
 
 # Button to trigger the API call
-if st.button("Search Jobs"):
+if search_button:
     if location:  # Ensure location is provided
         with st.spinner("Fetching job ads..."):
             results = get_adzuna_ads_page(conf, cli, 1, where=location, distance=radius)
