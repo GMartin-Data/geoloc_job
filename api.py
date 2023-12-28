@@ -4,7 +4,7 @@ This module contains logic to extract data from Adzuna API
 import json
 import logging
 import time
-from typing import List, Optional, Union
+from typing import Dict, List, Optional, Union
 
 from httpx import Client
 from rich import print
@@ -33,6 +33,7 @@ def dump_adzuna_ads(ads: List[AdzunaAd]) -> None:
 
 
 def get_adzuna_ads_page(
+    conf: Dict[str, str],
     client: Client,
     page: int,
     what: str = "data",
@@ -66,6 +67,7 @@ def get_adzuna_ads_page(
 
 @timer
 def get_adzuna_ads(
+    conf: Dict[str, str],
     what: str = "data",
     where: str = "Lille",
     distance: int = 10,
@@ -76,6 +78,7 @@ def get_adzuna_ads(
     Experience showed that only 100 pertinent pages were generated.
     Parameters
     ----------
+        - conf: the configuration dict used for requesting Adzuna API
         - what: a topic to explore, default: 'data'
         - where: the location around which the search will be centered, default: 'Lille'
         - distance: the radius of the disk within the search will be performed, default: 10
@@ -94,7 +97,7 @@ def get_adzuna_ads(
     errors = 0
 
     # Getting the ads count
-    n_ads = get_adzuna_ads_page(cli, 1, what, where, distance, cat_tag, get_count=True)
+    n_ads = get_adzuna_ads_page(conf, cli, 1, what, where, distance, cat_tag, get_count=True)
     logger.warning(f"Number of ads to get: {n_ads}")
     n_pages = n_ads // 50 + 1
     logger.warning(f"Number of pages to proceed: {n_pages}")
@@ -107,7 +110,7 @@ def get_adzuna_ads(
                 time.sleep(1)
         try:
             # Requesting
-            new_ads = get_adzuna_ads_page(cli, page, what, where, distance, cat_tag)
+            new_ads = get_adzuna_ads_page(conf, cli, page, what, where, distance, cat_tag)
             logger.info(f"Page {page} PROCESSED")
         except BaseException as e:
             logger.error(f"{type(e)}: Exception {e} occured! on page {page}")
@@ -123,7 +126,7 @@ def get_adzuna_ads(
 
 if __name__ == "__main__":
     conf = configure()
-    ads = get_adzuna_ads()
+    ads = get_adzuna_ads(conf, distance=60)
     # Get dump
     dump_adzuna_ads(ads)
     # cli = create_client(conf['ua'])
