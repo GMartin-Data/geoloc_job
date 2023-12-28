@@ -1,7 +1,0 @@
-black
-folium
-httpx
-pydantic
-python-dotenv
-rich
-streamlit
