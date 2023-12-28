@@ -97,7 +97,9 @@ def get_adzuna_ads(
     errors = 0
 
     # Getting the ads count
-    n_ads = get_adzuna_ads_page(conf, cli, 1, what, where, distance, cat_tag, get_count=True)
+    n_ads = get_adzuna_ads_page(
+        conf, cli, 1, what, where, distance, cat_tag, get_count=True
+    )
     logger.warning(f"Number of ads to get: {n_ads}")
     n_pages = n_ads // 50 + 1
     logger.warning(f"Number of pages to proceed: {n_pages}")
@@ -110,7 +112,9 @@ def get_adzuna_ads(
                 time.sleep(1)
         try:
             # Requesting
-            new_ads = get_adzuna_ads_page(conf, cli, page, what, where, distance, cat_tag)
+            new_ads = get_adzuna_ads_page(
+                conf, cli, page, what, where, distance, cat_tag
+            )
             logger.info(f"Page {page} PROCESSED")
         except BaseException as e:
             logger.error(f"{type(e)}: Exception {e} occured! on page {page}")

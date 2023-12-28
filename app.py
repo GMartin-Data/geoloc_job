@@ -10,7 +10,7 @@ from utils import configure, create_client
 
 # Configure and create client
 conf = configure()
-cli = create_client(conf['ua'])
+cli = create_client(conf["ua"])
 
 # User inputs
 with st.sidebar:
