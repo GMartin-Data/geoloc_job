@@ -17,7 +17,7 @@ from utils import configure, create_client, get_date, timer
 
 # Instanciating logger
 setup_logging()
-logger = logging.getLogger("rich")
+logger = logging.getLogger(__name__)
 
 
 def dump_adzuna_ads(ads: List[AdzunaAd]) -> None:
